@@ -131,6 +131,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# python manage.py collectstatic : static 파일들을 한군데로 모아주는 명령어
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') : 모아진 파일들을 어디에 저장할 것인지를 지정하는게 STATIC_ROOT
+# os:라이브러리 path:경로관련모듈 join:path중에서 조인하는 함수. 합친다
+# base_dir:setting.py가 있는 경로의 상위인 pinterset를 기본베이스로하고, 그 pinterest 내의 staticfiles 폴더에 다 모으겠다.
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
