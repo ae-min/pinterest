@@ -1,5 +1,6 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
 
 # Create your views here.
 from accountapp.models import HelloWorld
@@ -15,11 +16,15 @@ def hello_world(request):
         new_hello_world.text = temp
         new_hello_world.save()
 
-        return render(request, 'accountapp/hello_world.html', context={'hello_world_output':new_hello_world})
+        hello_world_list = HelloWorld.objects.all()
+        return HttpResponseRedirect(reverse('accountapp:hello_world'))
     else:
-        return render(request, 'accountapp/hello_world.html', context={'text': 'GET METHOD!!!'})
+        hello_world_list = HelloWorld.objects.all()
+        return render(request, 'accountapp/hello_world.html', context={'hello_world_list': hello_world_list})
+
 
     '''
+    return render(request, 'accountapp/hello_world.html', context={'text': POST METHOD!!!'})
     요청을 받은 객체 안에서 찾은 메소드가 POST 메소드일 경우, 기존의 render 방식을 사용하는데, 
     추가적으로 context라는 데이터 꾸러미 안에 텍스트라는 이름을 가졌고 내용은 POST METHOD!!!인 문장을 넣어서 리턴
     -> hello_world.html의 {{ text }} 가 호출되면, context의 text를 찾고 POST METHOD!!! 출력
