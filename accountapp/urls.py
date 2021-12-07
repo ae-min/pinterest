@@ -1,3 +1,4 @@
+from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
 
 from accountapp.views import hello_world, AccountCreateView
@@ -11,6 +12,11 @@ app_name = "accountapp"
 urlpatterns = [
     path('hello_world/', hello_world, name='hello_world'),
     #accountapp-views의 hello_world라는 주소에 접근하면, 해당 hello_world뷰를 되돌려주는 구조 (접근경로, 보여쥴뷰, 이름)
+
+    path('login/', LoginView.as_view(template_name='accountapp/login.html'), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+
     path('create/', AccountCreateView.as_view(), name='create'),
     #함수형이 아닌, 클래스형일 경우에는 : 클래스명.as_view() 형식으로 작성.
+
 ]

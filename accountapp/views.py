@@ -27,6 +27,7 @@ def hello_world(request):
         return render(request, 'accountapp/hello_world.html', context={'hello_world_list': hello_world_list})
 
 
+
     '''
     return render(request, 'accountapp/hello_world.html', context={'text': POST METHOD!!!'})
     요청을 받은 객체 안에서 찾은 메소드가 POST 메소드일 경우, 기존의 render 방식을 사용하는데, 
