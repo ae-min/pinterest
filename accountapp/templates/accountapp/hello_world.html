@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div style="height:20rem; background-color:#38df81; border-radius:1rem; margin:2rem;">
-        <h1>
-            testing
+    <div style=" border-radius:1rem; margin:2rem; text-align:center">
+        <h1 style="font-family: 'Jua', sans-serif;">
+           Hello World List!
         </h1>
 
         <!--
@@ -16,13 +16,20 @@
         <form action="/account/hello_world/" method="post">
             {% csrf_token %}
         <!-- CSRF : 장고를 이용해 post 메소드를 사용해 서버에 요청을 보낼때는 CSRF토큰이라는 것을 항상 폼 내부에 명시해줘야함. -->
-            <input type="submit" class="btn btn-primary" value="post">
+            <div>
+                <input type="text" name="hello_world_input">
+            </div>
+            <div>
+                 <input type="submit" class="btn btn-primary" value="post">
             <!-- 부트스트랩 내의 btn. primary색상 적용됨/value:버튼 내부에 들어갈 텍스트 -->
+            </div>
         </form>
 
+        {% if hello_world_output %}
         <h1>
-            {{ text }}
+            {{ hello_world_output.text }}
         </h1>
+        {% endif %}
     </div>
 
 {% endblock %}
