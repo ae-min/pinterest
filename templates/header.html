@@ -21,9 +21,12 @@
           <span>Login</span>
       </a>
       {% else %}  <!-- 유저가 로그인이 되어있다면, 로그아웃 페이지를 보여주기 -->
+       <a href="{% url 'accountapp:detail' pk=user.pk %}">
+          <span>MyPage</span>
+       </a>
        <a href="{% url 'accountapp:logout' %}?next={{ request.path}}">
           <span>Logout</span>
-      </a>
+       </a>
       {% endif %}
   </div>
  </div>

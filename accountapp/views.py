@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 
 # Create your views here.
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView
 
 from accountapp.models import HelloWorld
 
@@ -52,3 +52,13 @@ class AccountCreateView(CreateView): #CRUD 중 C create
     form_class = UserCreationForm
     success_url = reverse_lazy('accountapp:hello_world') #reverse : 함수형 뷰, reverse_lazy : 클래스형 뷰
     template_name = 'accountapp/create.html'
+
+class AccountDetailView(DetailView):
+    #CRUD 중에 Read부분. 단, Read가 아닌 detail로 사용. 조회이기 때문에 어떤 모델사용, 정보를 어떻게 시각화할 것인지에 대한 정보만 필요
+    model = User
+    context_object_name = 'target_user'
+    '''
+    user는 로그인한 사람 정보인데, 예를들어 인스타그램의 다른 사람 계정을 조회하려는 경우에는 내 정보가 아닌 해당 계정주의 정보를 
+    보여줘야하므로, detail페이지에 {{ target_user.username }} 처럼 내정보가 아닌 타겟 유저의 정보를 조회하도록 지정함
+    '''
+    template_name = 'accountapp/detail.html'
