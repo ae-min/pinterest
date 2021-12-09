@@ -20,8 +20,11 @@
                 ex) 메인페이지에서 찾아간게 아니고, 도메인에 로그인 치면 디폴트 페이지 뜸-->
           <span>Login</span>
       </a>
+      <a href="{% url 'accountapp:create' %}">
+          <span>SignUp</span>
+      </a>
       {% else %}  <!-- 유저가 로그인이 되어있다면, 로그아웃 페이지를 보여주기 -->
-       <a href="{% url 'accountapp:detail' pk=user.pk %}">
+      <a href="{% url 'accountapp:detail' pk=user.pk %}">
           <span>MyPage</span>
        </a>
        <a href="{% url 'accountapp:logout' %}?next={{ request.path}}">
