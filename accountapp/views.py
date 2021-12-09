@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 
@@ -13,21 +13,23 @@ from accountapp.models import HelloWorld
 
 def hello_world(request):
 
-    if request.method == "POST":
+    if request.user.is_authenticated: #사용자가 로그인하지 않은 경우 로그인창으로 이동시킴
 
-        temp = request.POST.get('hello_world_input')
+        if request.method == "POST":
 
-        new_hello_world = HelloWorld()
-        new_hello_world.text = temp
-        new_hello_world.save()
+            temp = request.POST.get('hello_world_input')
 
-        hello_world_list = HelloWorld.objects.all()
-        return HttpResponseRedirect(reverse('accountapp:hello_world'))
+            new_hello_world = HelloWorld()
+            new_hello_world.text = temp
+            new_hello_world.save()
+
+            hello_world_list = HelloWorld.objects.all()
+            return HttpResponseRedirect(reverse('accountapp:hello_world'))
+        else:
+            hello_world_list = HelloWorld.objects.all()
+            return render(request, 'accountapp/hello_world.html', context={'hello_world_list': hello_world_list})
     else:
-        hello_world_list = HelloWorld.objects.all()
-        return render(request, 'accountapp/hello_world.html', context={'hello_world_list': hello_world_list})
-
-
+        return HttpResponseRedirect(reverse('accountapp:login'))
 
     '''
     return render(request, 'accountapp/hello_world.html', context={'text': POST METHOD!!!'})
@@ -71,8 +73,39 @@ class AccountUpdateView(UpdateView): #CRUD 중 U update
     success_url = reverse_lazy('accountapp:hello_world') #reverse : 함수형 뷰, reverse_lazy : 클래스형 뷰
     template_name = 'accountapp/update.html'
 
+    def get(self, *args, **kwargs):
+        if self.request.user.is_authenticated and self.get_object() == self.request.user:
+            #self.request.user.is_authenticated and : 현재 request.user 로그인이 되어있고
+            #self.get_object() : self는 updateview를 가리키며, .get_object()는 이 안에서 현재 사용되고 있는 user object의 pk값을 가져옴.
+            #그 후에 == self.request.user : 현재 리퀘스트를 보낸 유저와 같은지를 확인함.
+            return super().get(*args, **kwargs)
+        else:
+            return HttpResponseForbidden()
+
+        # return HttpResponseRedirect(reverse('accountapp:login'))
+        # 로그인이 되어있으면 기존의 방식으로 하되, 안되어있을 경우 로그인창으로 이동 시킴
+
+    def post(self, *args, **kwargs):
+        if self.request.user.is_authenticated and self.get_object() == self.request.user:
+            return super().post(*args, **kwargs)
+        else:
+            return HttpResponseForbidden()
+
 class AccountDeleteView(DeleteView):
     model = User
     context_object_name = 'target_user'
     success_url = reverse_lazy('accountapp:login')
     template_name = 'accountapp/delete.html'
+
+    def get(self, *args, **kwargs):
+        if self.request.user.is_authenticated and self.get_object() == self.request.user:
+            return super().get(*args, **kwargs)
+        else:
+            return HttpResponseForbidden() 
+        # 로그인이 되어있으면 기존의 방식으로 하되, 자신의 pk와 다른 pk에 접근 시, 금지된 곳에 접근했다는 페이지를 보여줌
+
+    def post(self, *args, **kwargs):
+        if self.request.user.is_authenticated and self.get_object() == self.request.user:
+            return super().post(*args, **kwargs)
+        else:
+            return HttpResponseForbidden()
