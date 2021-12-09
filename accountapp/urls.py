@@ -1,7 +1,7 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
 
-from accountapp.views import hello_world, AccountCreateView, AccountDetailView
+from accountapp.views import hello_world, AccountCreateView, AccountDetailView, AccountUpdateView
 
 app_name = "accountapp"
 '''
@@ -20,4 +20,5 @@ urlpatterns = [
     #함수형이 아닌, 클래스형일 경우에는 : 클래스명.as_view() 형식으로 작성.
     path('detail/<int:pk>', AccountDetailView.as_view(), name='detail'),
     #특정 회원의 정보만을 보여주는 것이기 때문에 회원에 대한 기본키가 필요함. 몇번 유저에 대해 접근할 것인지 지정하기 위해 <int:pk> 작성
+    path('update/<int:pk>', AccountUpdateView.as_view(), name='update'),
 ]

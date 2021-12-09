@@ -5,8 +5,9 @@ from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 
 # Create your views here.
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, DetailView, UpdateView
 
+from accountapp.forms import AccountUpdateForm
 from accountapp.models import HelloWorld
 
 
@@ -62,3 +63,9 @@ class AccountDetailView(DetailView):
     보여줘야하므로, detail페이지에 {{ target_user.username }} 처럼 내정보가 아닌 타겟 유저의 정보를 조회하도록 지정함
     '''
     template_name = 'accountapp/detail.html'
+
+class AccountUpdateView(UpdateView): #CRUD 중 U update
+    model = User
+    form_class = AccountUpdateForm
+    success_url = reverse_lazy('accountapp:hello_world') #reverse : 함수형 뷰, reverse_lazy : 클래스형 뷰
+    template_name = 'accountapp/update.html'
