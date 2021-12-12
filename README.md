@@ -23,3 +23,10 @@ class ProfileCreationForm(ModelForm):
       fields = ['image', 'nickname', 'message']
 
 *model의 user는 서버에서 따로 처리
+
+#course 31 commit
+
+@새로운 app생성
+모델을 만들었으면 db에 반영
+1) python manage.py makemigrations
+2) python manage.py migrate
