@@ -24,7 +24,7 @@ class ProfileCreationForm(ModelForm):
 
 *model의 user는 서버에서 따로 처리
 
-#course 31 commit
+# course 31 commit
 
 @새로운 app생성
 모델을 만들었으면 db에 반영
