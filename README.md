@@ -1,6 +1,10 @@
-# pinterest
-Django, Docker, AWS
+# course 29 commit
 
+@super 계정 생성
+python manage.py createsuperuser 
+
+@장고에서 이미지를 관리할 때 필요한 라이브러리 설치
+pip install pillow
 
 # course 30 commit
 
