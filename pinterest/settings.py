@@ -149,4 +149,10 @@ LOGOUT_REDIRECT_URL = reverse_lazy('accountapp:login')
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
+MEDIA_URL = '/media/' #주소창에 media 이하의 경로로 접근해야 실제 미디어 파일에 접근 가능
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+#미디어파일을 서버를 올렸을 때, 어느 경로에 지정될 것인지. 그 경로의 루트, 바닥에 있는 경로가 어디가 될 것인지에 대한 정보
+#파일을 올리면 pinterest에서 media라는 디렉토리가 새로 생기면서, media 아래에 있는 디렉토리에 내가 올린 파일들이 다 저장됨
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
