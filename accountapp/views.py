@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
@@ -5,13 +6,36 @@ from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 
 # Create your views here.
+from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
+from accountapp.decorators import account_ownership_required
 from accountapp.forms import AccountUpdateForm
 from accountapp.models import HelloWorld
 
+has_ownership = [account_ownership_required, login_required] #두개의 데코레이터를 한데 모아 배열로 만듬
 
+@login_required #데코레이터
 def hello_world(request):
+  # if request.user.is_authenticated: #사용자가 로그인하지 않은 경우 로그인창으로 이동시킴 ->데코레이터가 대신함
+
+    if request.method == "POST":
+
+        temp = request.POST.get('hello_world_input')
+
+        new_hello_world = HelloWorld()
+        new_hello_world.text = temp
+        new_hello_world.save()
+
+        #hello_world_list = HelloWorld.objects.all()
+        return HttpResponseRedirect(reverse('accountapp:hello_world'))
+    else:
+        hello_world_list = HelloWorld.objects.all()
+        return render(request, 'accountapp/hello_world.html', context={'hello_world_list': hello_world_list})
+  # else: return HttpResponseRedirect(reverse('accountapp:login')) ->데코레이터가 대신함
+
+    '''
+    def hello_world(request):
 
     if request.user.is_authenticated: #사용자가 로그인하지 않은 경우 로그인창으로 이동시킴
 
@@ -30,6 +54,7 @@ def hello_world(request):
             return render(request, 'accountapp/hello_world.html', context={'hello_world_list': hello_world_list})
     else:
         return HttpResponseRedirect(reverse('accountapp:login'))
+    '''
 
     '''
     return render(request, 'accountapp/hello_world.html', context={'text': POST METHOD!!!'})
@@ -66,14 +91,27 @@ class AccountDetailView(DetailView):
     '''
     template_name = 'accountapp/detail.html'
 
+'''
+**@method_decorator(has_ownership, 'get') : has_ownership이라는 배열로 묶음으로써 4줄을 2줄로 간단하게 작성 가능
+
+@method_decorator(login_required, 'get')
+@method_decorator(login_required, 'post') #일반 function에 사용하는 데코레이터를 메서드에 사용할 수 있도록 변환하는 데코레이터
+@method_decorator(account_ownership_required, 'get')
+@method_decorator(account_ownership_required, 'post')
+#decorators.py : 현재유저가 리퀘스트 유저가 맞는지 본인인증 하기위해 직접 만든 데코레이터. <and self.get_object() == self.request.user:> 이부분
+'''
+@method_decorator(has_ownership, 'get')
+@method_decorator(has_ownership, 'post')
 class AccountUpdateView(UpdateView): #CRUD 중 U update
     model = User
     context_object_name = 'target_user'
     form_class = AccountUpdateForm
     success_url = reverse_lazy('accountapp:hello_world') #reverse : 함수형 뷰, reverse_lazy : 클래스형 뷰
     template_name = 'accountapp/update.html'
-
-    def get(self, *args, **kwargs):
+    
+    '''
+    @데코레이터가 대신한 부분들
+     def get(self, *args, **kwargs):
         if self.request.user.is_authenticated and self.get_object() == self.request.user:
             #self.request.user.is_authenticated and : 현재 request.user 로그인이 되어있고
             #self.get_object() : self는 updateview를 가리키며, .get_object()는 이 안에서 현재 사용되고 있는 user object의 pk값을 가져옴.
@@ -90,14 +128,22 @@ class AccountUpdateView(UpdateView): #CRUD 중 U update
             return super().post(*args, **kwargs)
         else:
             return HttpResponseForbidden()
-
+    '''
+    '''
+    @method_decorator(login_required, 'get')
+    @method_decorator(login_required, 'post')
+    @method_decorator(account_ownership_required, 'get')
+    @method_decorator(account_ownership_required, 'post')
+    '''
+@method_decorator(has_ownership, 'get')
+@method_decorator(has_ownership, 'post')
 class AccountDeleteView(DeleteView):
     model = User
     context_object_name = 'target_user'
     success_url = reverse_lazy('accountapp:login')
     template_name = 'accountapp/delete.html'
-
-    def get(self, *args, **kwargs):
+    '''
+       def get(self, *args, **kwargs):
         if self.request.user.is_authenticated and self.get_object() == self.request.user:
             return super().get(*args, **kwargs)
         else:
@@ -109,3 +155,4 @@ class AccountDeleteView(DeleteView):
             return super().post(*args, **kwargs)
         else:
             return HttpResponseForbidden()
+    '''
