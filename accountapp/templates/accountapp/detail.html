@@ -7,9 +7,19 @@
             <p>
                 {{ target_user.date_joined }}
             </p>
+
+            {% if target_user.profile%} <!-- 타겟유저의 프로필이 존재하면 -->
             <h2 style="font-family: 'NanumSquareB'">
-                {{ target_user.username }}
+                {{ target_user.profile.nickname }} <!-- 타겟유저의 프로필의 닉네임을 보여줌 -->
+                 <!-- {{ target_user.username } }-->
             </h2>
+            {% else %} <!-- 타겟유저의 프로필이 존재하지 않으면 -->
+            <a href="{% url 'profileapp:create' %}"> <!-- 프로필을 생성하는 곳으로 이동 시킴 -->
+                <h2 style="font-family: 'NanumSquareB'">
+                    Create Profile
+            </h2>
+            </a>
+            {% endif %}
 
             {% if target_user == user %}
             <a href="{% url 'accountapp:update' pk=user.pk %}">
