@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.urls import reverse_lazy
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, UpdateView
 
@@ -14,7 +15,15 @@ class ProfileCreateView(CreateView):
     model = Profile
     context_object_name = 'target_profile'
     form_class = ProfileCreationForm
-    success_url = reverse_lazy('accountapp:hello_world')
+    '''
+    #success_url = reverse_lazy('accountapp:detail')
+    
+    urls.py에 보면 detail의 경우 pk값을 전송해줘야함. -> path('detail/<int:pk>', AccountDetailView.as_view(), name='detail'),
+    그런데 현재 success_url 설정을 해주는 것으로는 추가적인 데이터를 동적으로 전송 불가능함.
+    class ProfileCreateView(CreateView):와 직접적으로 연관된 파라미터로 넘겨주기 때문.
+    pk를 전송하고 싶다면 
+    아래 def get_success_url(self): 부분과 같이 따로 설정해야함
+    '''
     template_name = 'profileapp/create.html'
 
     def form_valid(self, form):
@@ -28,11 +37,22 @@ class ProfileCreateView(CreateView):
         temp_profile.save() #그 후, 최종 저장
         return super().form_valid(form) #나머지는 조상인 class ProfileCreateView(CreateView):의 결과를 리턴
 
+    def get_success_url(self):
+        return reverse('accountapp:detail', kwargs={'pk':self.object.user.pk})
+    '''
+    kwargs={'pk':self.object.user.pk} :
+    self.object가 가리키는 것은 class ProfileCreateView(CreateView): model = Profile의 Profile임.
+    class Profile(models.Model):의 user에 대한 pk를 다시 accountapp:detail'의 detail로 넘겨줌
+    '''
+
 @method_decorator(profile_ownership_required, 'get')
 @method_decorator(profile_ownership_required, 'post')
 class ProfileUpdateView(UpdateView):
     model = Profile
     context_object_name = 'target_profile'
     form_class = ProfileCreationForm
-    success_url = reverse_lazy('accountapp:hello_world')
+    # success_url = reverse_lazy('accountapp:hello_world')
     template_name = 'profileapp/update.html'
+
+    def get_success_url(self):
+        return reverse('accountapp:detail', kwargs={'pk':self.object.user.pk})

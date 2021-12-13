@@ -6,28 +6,33 @@
         <div style="text-align:center; max-width:500px; margin: 4rem auto;">
         <!-- <p> {{ target_user.date_joined }} </p> : 가입일자 보여주기-->
 
+            {% if target_user.profile%} <!-- 타겟유저의 프로필이 존재하면 -->
             <img src="{{ target_user.profile.image.url }}" alt=""
                  style="height:12rem; width:12rem; border-radius:20rem; margin-bottom:2rem;">
-
-            {% if target_user.profile%} <!-- 타겟유저의 프로필이 존재하면 -->
             <h2 style="font-family: 'NanumSquareB'">
                 {{ target_user.profile.nickname }} <!-- 타겟유저의 프로필의 닉네임을 보여줌 -->
                  <!-- {{ target_user.username } }-->
+                {% if target_user == user %}
                 <a href="{% url 'profileapp:update' pk=target_user.profile.pk %}">
                     edit
                 </a>
+                {% endif %}
             </h2>
-            {% else %} <!-- 타겟유저의 프로필이 존재하지 않으면 -->
-            <a href="{% url 'profileapp:create' %}"> <!-- 프로필을 생성하는 곳으로 이동 시킴 -->
-                <h2 style="font-family: 'NanumSquareB'">
-                    Create Profile
-            </h2>
-            </a>
-            {% endif %}
-
             <h5 style="margin-bottom:3rem;">
                 {{ target_user.profile.message }}
             </h5>
+            {% else %} <!-- 타겟유저의 프로필이 존재하지 않으면 -->
+                {% if target_user == user %}
+                <a href="{% url 'profileapp:create' %}"> <!-- 프로필을 생성하는 곳으로 이동 시킴 -->
+                    <h2 style="font-family: 'NanumSquareB'">
+                        Create Profile
+                    </h2>
+                </a>
+                {% else%}
+                    <h2>닉네임미설정</h2>
+                    <!-- 프로필 미설정 시, 로그인이 되어있으면 Create Profile이 뜨고, 로그인이 안된 상태이면 닉네임미설정이 보이는 구조-->
+                {% endif %}
+            {% endif %}
 
             {% if target_user == user %}
             <a href="{% url 'accountapp:update' pk=user.pk %}">
