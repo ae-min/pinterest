@@ -30,3 +30,16 @@ class ProfileCreationForm(ModelForm):
 모델을 만들었으면 db에 반영
 1) python manage.py makemigrations
 2) python manage.py migrate
+
+# course 34 commit 
+@Magic-Grid 
+
+주소 : https://github.com/e-oj/Magic-Grid
+1) on JSFIDDLE 하이퍼링크 클릭시, 주소이동 (https://jsfiddle.net/eolaojo/4pov0rdf/)  // html,css,자바스크립트 소스
+2) dist 폴더 내의 magic-grid.cjs.js  // js소스
+
+@랜덤이미지 사용 
+
+주소 : https://picsum.photos/
+
+img태그 src에 "https://picsum.photos/200/300" 주소 입력
