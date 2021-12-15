@@ -43,3 +43,13 @@ class ProfileCreationForm(ModelForm):
 주소 : https://picsum.photos/
 
 img태그 src에 "https://picsum.photos/200/300" 주소 입력
+
+# course 36 commit
+
+@pagination
+
+이전페이지, 다음페이지 존재여부 확인하여 1,2,3 등의 페이지 번호들을 보여주며, 해당 페이지로 이동 가능
+
+@infinite scroll 
+
+페이스북, 인스타그램, 핀터레스트와 같은 무한 스크롤
