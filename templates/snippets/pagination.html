@@ -1,0 +1,22 @@
+<div style="text-align:center; margin:1rem 0;">
+    {% if page_obj.has_previous %}
+    <!-- has_previous : 현재페이지를 기준으로, 이전 페이지가 있는지 없는지 확인 -->
+    <a href="{% url 'articleapp:list' %}?page={{ page_obj.previous_page_number }}"
+       class="btn btn-secondary rounded-pill">
+        {{ page_obj.previous_page_number }}
+        <!-- 이전페이지가 있으면, 이전 페이지 번호를 ?page={{ page_obj.previous_page_number }} 여기로 넘겨줌-->
+    </a>
+    {% endif %}
+    <!-- 현재페이지 -->
+    <a href="{% url 'articleapp:list' %}?page={{ page_obj.number }}"
+       class="btn btn-secondary rounded-pill active">
+        {{ page_obj.number }}
+    </a>
+    {% if page_obj.has_next %}
+    <!-- has_next : 현재페이지를 기준으로, 다음 페이지가 있는지 없는지 확인 -->
+    <a href="{% url 'articleapp:list' %}?page={{ page_obj.next_page_number }}"
+       class="btn btn-secondary rounded-pill">
+        {{ page_obj.next_page_number }}
+    </a>
+    {% endif %}
+</div>
