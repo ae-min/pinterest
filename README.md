@@ -53,3 +53,13 @@ img태그 src에 "https://picsum.photos/200/300" 주소 입력
 @infinite scroll 
 
 페이스북, 인스타그램, 핀터레스트와 같은 무한 스크롤
+
+# course 37 commit
+
+@Mixin 다중상속
+
+detailView의 content영역에 게시물 내용이 나오고 
+하단에 commentForm 영역이 나와야 하는데 
+현재 detailView는 폼이 없고 오브젝트만 있으므로
+이 문제를 해결하기 위해 mixin 사용
+
