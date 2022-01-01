@@ -85,3 +85,35 @@ setting.py의 ALLOWED_HOST => '*' : 모든 호스트의 접근 허용
 }
 
 => 지정한 너비인 500px 이하로 떨어지면 해당 설정을 적용하여 반응형 사이트 구현
+
+# course 40 commit
+
+@새로운 앱 생성
+
+python manage.py startapp projectapp
+
+---
+@ a:hover 
+
+a태그에 마우스를 올렸을 때
+
+@ text-decoration : none;
+
+a태그의 언더바 제거
+
+---
+<a href="{% url 'articleapp:list' %}?page={{ page_obj.next_page_number }}"
+       class="btn btn-secondary rounded-pill">
+        {{ page_obj.next_page_number }}
+</a>
+
+=> {% url 'articleapp:list' %} 이부분을 제거하면, 
+
+articleapp에서만 사용 가능한게 아니라 어디서든 사용 가능해짐.
+
+---
+@ 보여지는 글자수 제한
+
+truncatechars : 글자수
+
+제한한 글자수 까지만 보여진 후, 뒷 부분은 ... 표시됨
