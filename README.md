@@ -38,6 +38,7 @@ class ProfileCreationForm(ModelForm):
 1) on JSFIDDLE 하이퍼링크 클릭시, 주소이동 (https://jsfiddle.net/eolaojo/4pov0rdf/)  // html,css,자바스크립트 소스
 2) dist 폴더 내의 magic-grid.cjs.js  // js소스
 
+---
 @랜덤이미지 사용 
 
 주소 : https://picsum.photos/
@@ -63,3 +64,24 @@ detailView의 content영역에 게시물 내용이 나오고
 현재 detailView는 폼이 없고 오브젝트만 있으므로
 이 문제를 해결하기 위해 mixin 사용
 
+
+# course 38 commit
+
+@모바일에서 확인하는 방법
+
+(PC는 python manage.py runserver 127.0.0.1:8000)
+
+모바일은 python manage.py runserver 0.0.0.0:8000 으로 서버를 열고, 
+
+'0.0.0.0 자리에 내 ip주소 :8000' 입력하여 확인 가능
+
+setting.py의 ALLOWED_HOST => '*' : 모든 호스트의 접근 허용
+
+---
+@media screen and (max-width:500px) {
+    html {
+        font-size : 13px;
+    }
+}
+
+=> 지정한 너비인 500px 이하로 떨어지면 해당 설정을 적용하여 반응형 사이트 구현
