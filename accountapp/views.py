@@ -8,10 +8,12 @@ from django.urls import reverse, reverse_lazy
 # Create your views here.
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
+from django.views.generic.list import MultipleObjectMixin
 
 from accountapp.decorators import account_ownership_required
 from accountapp.forms import AccountUpdateForm
 from accountapp.models import HelloWorld
+from articleapp.models import Article
 
 has_ownership = [account_ownership_required, login_required] #두개의 데코레이터를 한데 모아 배열로 만듬
 
@@ -81,7 +83,7 @@ class AccountCreateView(CreateView): #CRUD 중 C create
     success_url = reverse_lazy('accountapp:hello_world') #reverse : 함수형 뷰, reverse_lazy : 클래스형 뷰
     template_name = 'accountapp/create.html'
 
-class AccountDetailView(DetailView):
+class AccountDetailView(DetailView, MultipleObjectMixin):
     #CRUD 중에 Read부분. 단, Read가 아닌 detail로 사용. 조회이기 때문에 어떤 모델사용, 정보를 어떻게 시각화할 것인지에 대한 정보만 필요
     model = User
     context_object_name = 'target_user'
@@ -90,7 +92,11 @@ class AccountDetailView(DetailView):
     보여줘야하므로, detail페이지에 {{ target_user.username }} 처럼 내정보가 아닌 타겟 유저의 정보를 조회하도록 지정함
     '''
     template_name = 'accountapp/detail.html'
+    paginate_by = 25
 
+    def get_context_data(self, **kwargs):
+        object_list = Article.objects.filter(writer=self.get_object())
+        return super(AccountDetailView, self).get_context_data(object_list=object_list, **kwargs)
 '''
 **@method_decorator(has_ownership, 'get') : has_ownership이라는 배열로 묶음으로써 4줄을 2줄로 간단하게 작성 가능
 

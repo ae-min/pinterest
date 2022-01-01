@@ -1,7 +1,9 @@
 from django.views.generic import CreateView, DetailView, ListView
 
 from django.urls import reverse
+from django.views.generic.list import MultipleObjectMixin
 
+from articleapp.models import Article
 from projectapp.forms import ProjectCreationForm
 from projectapp.models import Project
 
@@ -13,10 +15,17 @@ class ProjectCreateView(CreateView):
     def get_success_url(self):
         return reverse('projectapp:detail', kwargs={'pk': self.object.pk})
 
-class ProjectDetailView(DetailView):
+class ProjectDetailView(DetailView, MultipleObjectMixin):
     model = Project
     context_object_name = 'target_project'
     template_name = 'projectapp/detail.html'
+    paginate_by = 25
+
+    def get_context_data(self, **kwargs):
+        object_list = Article.objects.filter(project=self.get_object())
+        #현재의 project의 오브젝트와 같은 프로젝트를 가진 article을 필터링
+        return super(ProjectDetailView, self).get_context_data(object_list=object_list, **kwargs)
+        #필터링된 게시글들을 오브젝트 리스트에 넣어서 되돌려줌
 
 class ProjectListView(ListView):
     model = Project
