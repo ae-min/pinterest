@@ -3,35 +3,38 @@
     <h1 class="pinterest_logo">Pinterest</h1>
   </div>
   <div>
-       <a href="{% url 'articleapp:list' %}">
-          <span>Articles</span>
-      </a>
-       <span>nav2</span>
-       <span>nav3</span>
-      {% if not user.is_authenticated %}  <!-- 유저가 로그인이 되어있지 않다면, 로그인 페이지를 보여주기 -->
-      <a href="{% url 'accountapp:login' %}?next={{ request.path}}">
-          <!-- 로그인/로그아웃 후, 다시 가야할 경로를 찾을 때, 가장 먼저 next 값을 확인함. get방식으로 값을 넘겨줌,
-          ?next={{ request.path}} : 페이지 어디서든 그 url을 next라는 인자로 넘겨줌으로써,
-          로그인/로그아웃 후 원래 있던 자리로 돌아갈 수 있게 해줌  -->
+      <div class="pinterest_header_navbar">
+           <a href="{% url 'articleapp:list' %}" class="pinterest_header_nav">
+              <span>Articles</span>
+           </a>
+           <a href="{% url 'projectapp:list' %}" class="pinterest_header_nav">
+               <span>Projects</span>
+           </a>
+          {% if not user.is_authenticated %}  <!-- 유저가 로그인이 되어있지 않다면, 로그인 페이지를 보여주기 -->
+          <a href="{% url 'accountapp:login' %}?next={{ request.path}}" class="pinterest_header_nav">
+              <!-- 로그인/로그아웃 후, 다시 가야할 경로를 찾을 때, 가장 먼저 next 값을 확인함. get방식으로 값을 넘겨줌,
+              ?next={{ request.path}} : 페이지 어디서든 그 url을 next라는 인자로 넘겨줌으로써,
+              로그인/로그아웃 후 원래 있던 자리로 돌아갈 수 있게 해줌  -->
 
-          <!-- [pinterest->setting.py]
-                LOGIN_REDIRECT_URL = reverse_lazy('accountapp:hello_world')
-                LOGOUT_REDIRECT_URL = reverse_lazy('accountapp:login')
-                ** next->LOGOUT_REDIRECT_URL->default
-                만약 next인자가 없을 경우, 디폴트 값으로 가게 되므로, LOGOUT_REDIRECT_URL 값 또한 지정해줌
-                ex) 메인페이지에서 찾아간게 아니고, 도메인에 로그인 치면 디폴트 페이지 뜸-->
-          <span>Login</span>
-      </a>
-      <a href="{% url 'accountapp:create' %}">
-          <span>SignUp</span>
-      </a>
-      {% else %}  <!-- 유저가 로그인이 되어있다면, 로그아웃 페이지를 보여주기 -->
-      <a href="{% url 'accountapp:detail' pk=user.pk %}">
-          <span>MyPage</span>
-       </a>
-       <a href="{% url 'accountapp:logout' %}?next={{ request.path}}">
-          <span>Logout</span>
-       </a>
-      {% endif %}
+              <!-- [pinterest->setting.py]
+                    LOGIN_REDIRECT_URL = reverse_lazy('accountapp:hello_world')
+                    LOGOUT_REDIRECT_URL = reverse_lazy('accountapp:login')
+                    ** next->LOGOUT_REDIRECT_URL->default
+                    만약 next인자가 없을 경우, 디폴트 값으로 가게 되므로, LOGOUT_REDIRECT_URL 값 또한 지정해줌
+                    ex) 메인페이지에서 찾아간게 아니고, 도메인에 로그인 치면 디폴트 페이지 뜸-->
+              <span>Login</span>
+          </a>
+          <a href="{% url 'accountapp:create' %}" class="pinterest_header_nav">
+              <span>SignUp</span>
+          </a>
+          {% else %}  <!-- 유저가 로그인이 되어있다면, 로그아웃 페이지를 보여주기 -->
+          <a href="{% url 'accountapp:detail' pk=user.pk %}" class="pinterest_header_nav">
+              <span>MyPage</span>
+           </a>
+           <a href="{% url 'accountapp:logout' %}?next={{ request.path}}" class="pinterest_header_nav">
+              <span>Logout</span>
+           </a>
+          {% endif %}
+      </div>
   </div>
  </div>

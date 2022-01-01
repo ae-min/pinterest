@@ -8,7 +8,8 @@
 
             {% if target_user.profile%} <!-- 타겟유저의 프로필이 존재하면 -->
             <img src="{{ target_user.profile.image.url }}" alt=""
-                 style="height:12rem; width:12rem; border-radius:20rem; margin-bottom:2rem;">
+                 style="height:12rem; width:12rem; border-radius:20rem; margin-bottom:2rem; object-fit: cover;">
+            <!--  object-fit: cover => 지정된 너비 사이즈로 조절되는 도중에 사진이 찌그러지지 않도록 이미지를 자동으로 잘라내주는 옵션-->
             <h2 style="font-family: 'NanumSquareB'">
                 {{ target_user.profile.nickname }} <!-- 타겟유저의 프로필의 닉네임을 보여줌 -->
                  <!-- {{ target_user.username } }-->
