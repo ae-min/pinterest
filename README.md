@@ -117,3 +117,18 @@ articleapp에서만 사용 가능한게 아니라 어디서든 사용 가능해�
 truncatechars : 글자수
 
 제한한 글자수 까지만 보여진 후, 뒷 부분은 ... 표시됨
+
+# course 43 commit
+
+@ Field Lookup
+
+조금 더 복잡한 DB쿼리를 사용자가 구현할 수록 있도록 하는 기능
+
+articles.objects.filter(pk=xxx, user=xxx)
+
+=> articles.objects.filter(project__in=projects)
+
+** project__in 이 부분은
+
+SQL문의 select...where peoject in(...);와 같음
+
