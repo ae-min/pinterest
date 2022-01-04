@@ -132,3 +132,19 @@ articles.objects.filter(pk=xxx, user=xxx)
 
 SQL문의 select...where peoject in(...);와 같음
 
+# course 44 commit
+
+@ Medium Editor 사용을 통한 WYSIWYS 구현
+
+WYSIWYS : what you see is what you get '보는대로 글이 써진다'
+
+글을 쓸때 볼드체, 기울임, 언더라인, 글씨크기 조정 등의 기능 제공
+
+https://github.com/yabwe/medium-editor
+
+1. For a custom one:
+
+2. You can now instantiate a new MediumEditor object:
+
+두 부분의 소스코드 사용함
+
