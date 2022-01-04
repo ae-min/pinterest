@@ -3,7 +3,7 @@
 {% block content %}
 
     <div>
-        <div style="text-align:center; max-width:500px; margin: 4rem auto;">
+        <div style="text-align:center; max-width:500px; margin: 4rem auto 1.5rem auto;">
         <!-- <p> {{ target_user.date_joined }} </p> : 가입일자 보여주기-->
 
             <img src="{{ target_project.image.url }}" alt=""
@@ -11,10 +11,34 @@
             <h2 style="font-family: 'NanumSquareB'">
                 {{ target_project.title }}
             </h2>
-            <h5 style="margin-bottom:3rem;">
+            <h5>
                 {{ target_project.description }}
             </h5>
         </div>
+
+        <div class="text-center mb-5">
+            {% if user.is_authenticated %}
+                {% if not subscription %} <!-- 현재 구독중이 아닌 경우, 구독 버튼 보여줌 -->
+                <a href="{% url 'subscribeapp:subscribe' %}?project_pk={{ target_project.pk }}"
+                class="btn btn-primary rounded-pill px-4">
+                <!-- view.py의
+                class SubscriptionView(RedirectView):
+                    def get_redirect_url(self, *args, **kwargs):
+                        return reverse('projectapp:detail', kwargs={'pk': self.request.GET.get('project_pk')
+                => get방식으로 project_pk라는 데이터를 넘겨주기로 했으므로,
+                    ?project_pk={{ target_project.pk }} : 겟방식으로 project_pk에 현재있는 타겟프로젝트 pk값을 넣어서 보내줌
+                -->
+                    구독
+                </a>
+                {% else %}
+                <a href="{% url 'subscribeapp:subscribe' %}?project_pk={{ target_project.pk }}"
+                class="btn btn-dark rounded-pill px-4">
+                    구독취소
+                </a>
+                {% endif %}
+            {% endif %}
+        </div>
+
          <div>
              {% include 'snippets/list_pinterest.html' with article_list=object_list %}
          </div>
