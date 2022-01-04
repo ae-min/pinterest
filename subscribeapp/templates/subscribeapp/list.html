@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        {% include 'snippets/List_pinterest.html'  with article_list=article_list %}
+        <!-- List_pinterest.html 파일과 함께, view단에서 넘겨준 article_list를 이 안에서 쓰는 article_list랑 같이 넣어줌 -->
+    </div>
+{% endblock%}

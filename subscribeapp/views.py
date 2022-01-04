@@ -3,9 +3,10 @@ from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
 from django.utils.decorators import method_decorator
-from django.views.generic import RedirectView
+from django.views.generic import RedirectView, ListView
 from django.urls import reverse
 
+from articleapp.models import Article
 from projectapp.models import Project
 from subscribeapp.models import Subscription
 
@@ -33,3 +34,21 @@ class SubscriptionView(RedirectView):
             Subscription(user=user, project=project).save() # 앞서 찾은 유저와 프로젝트 쌍에 대한 정보로 구독 생성.
 
         return super(SubscriptionView, self).get(request, *args, **kwargs)
+
+@method_decorator(login_required, 'get')
+class SubscriptionListView(ListView):
+    model = Article
+    context_object_name = 'article_list'
+    template_name = 'subscribeapp/list.html'
+    paginate_by = 5
+
+    # 단순히 article을 전부 가져오는게 아니라, article 중에 특정 조건을 가진 게시물들만 가져와야 하므로, 쿼리셋 관련함수를 새로 작성
+    def get_queryset(self):
+        projects = Subscription.objects.filter(user=self.request.user).values_list('project')
+        # 유저가 구독 중인 프로젝트 찾기. Subscription내에서 유저의 모든 구독 정보를 가져오며, project 값들을 리스트화(values_list)
+        # projects에는 구독한 모든 project 리스트가 담김
+
+        article_list = Article.objects.filter(project__in=projects)
+        # field lookups을 사용해 article_list를 만듬. 위에서 찾은 projects가 담김
+        
+        return article_list

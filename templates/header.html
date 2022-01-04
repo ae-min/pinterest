@@ -10,6 +10,9 @@
            <a href="{% url 'projectapp:list' %}" class="pinterest_header_nav">
                <span>Projects</span>
            </a>
+           <a href="{% url 'subscribeapp:list' %}" class="pinterest_header_nav">
+               <span>Subscription</span>
+           </a>
           {% if not user.is_authenticated %}  <!-- 유저가 로그인이 되어있지 않다면, 로그인 페이지를 보여주기 -->
           <a href="{% url 'accountapp:login' %}?next={{ request.path}}" class="pinterest_header_nav">
               <!-- 로그인/로그아웃 후, 다시 가야할 경로를 찾을 때, 가장 먼저 next 값을 확인함. get방식으로 값을 넘겨줌,
