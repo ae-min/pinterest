@@ -147,4 +147,3 @@ https://github.com/yabwe/medium-editor
 2. You can now instantiate a new MediumEditor object:
 
 두 부분의 소스코드 사용함
-

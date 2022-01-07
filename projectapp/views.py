@@ -30,6 +30,9 @@ class ProjectDetailView(DetailView, MultipleObjectMixin):
         if user.is_authenticated:
             subscription = Subscription.objects.filter(user=user, project=project)
             # 유저가 인증이 되었으면, (유저와 프로젝트)구독정보를 찾음
+        else:
+            # 인증되어있지 않으면
+            subscription = None
 
         object_list = Article.objects.filter(project=self.get_object())
         #현재의 project의 오브젝트와 같은 프로젝트를 가진 article을 필터링

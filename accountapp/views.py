@@ -12,70 +12,11 @@ from django.views.generic.list import MultipleObjectMixin
 
 from accountapp.decorators import account_ownership_required
 from accountapp.forms import AccountUpdateForm
-from accountapp.models import HelloWorld
 from articleapp.models import Article
 
 has_ownership = [account_ownership_required, login_required] #두개의 데코레이터를 한데 모아 배열로 만듬
 
-@login_required #데코레이터
-def hello_world(request):
-  # if request.user.is_authenticated: #사용자가 로그인하지 않은 경우 로그인창으로 이동시킴 ->데코레이터가 대신함
-
-    if request.method == "POST":
-
-        temp = request.POST.get('hello_world_input')
-
-        new_hello_world = HelloWorld()
-        new_hello_world.text = temp
-        new_hello_world.save()
-
-        #hello_world_list = HelloWorld.objects.all()
-        return HttpResponseRedirect(reverse('accountapp:hello_world'))
-    else:
-        hello_world_list = HelloWorld.objects.all()
-        return render(request, 'accountapp/hello_world.html', context={'hello_world_list': hello_world_list})
-  # else: return HttpResponseRedirect(reverse('accountapp:login')) ->데코레이터가 대신함
-
-    '''
-    def hello_world(request):
-
-    if request.user.is_authenticated: #사용자가 로그인하지 않은 경우 로그인창으로 이동시킴
-
-        if request.method == "POST":
-
-            temp = request.POST.get('hello_world_input')
-
-            new_hello_world = HelloWorld()
-            new_hello_world.text = temp
-            new_hello_world.save()
-
-            hello_world_list = HelloWorld.objects.all()
-            return HttpResponseRedirect(reverse('accountapp:hello_world'))
-        else:
-            hello_world_list = HelloWorld.objects.all()
-            return render(request, 'accountapp/hello_world.html', context={'hello_world_list': hello_world_list})
-    else:
-        return HttpResponseRedirect(reverse('accountapp:login'))
-    '''
-
-    '''
-    return render(request, 'accountapp/hello_world.html', context={'text': POST METHOD!!!'})
-    요청을 받은 객체 안에서 찾은 메소드가 POST 메소드일 경우, 기존의 render 방식을 사용하는데, 
-    추가적으로 context라는 데이터 꾸러미 안에 텍스트라는 이름을 가졌고 내용은 POST METHOD!!!인 문장을 넣어서 리턴
-    -> hello_world.html의 {{ text }} 가 호출되면, context의 text를 찾고 POST METHOD!!! 출력
-    '''
-
-    '''
-    return render(request, 'base.html')
-    #템플릿을 가지고와서 내용을 채워넣는 형식. 요청이 들어오면 base.html 템플릿페이지 반환
-    #pinterest_settings_template DIR부분에 'DIRS': [os.path.join(BASE_DIR, 'templates')], 추가함
-    '''
-
-    '''
-    return HttpResponse('hello world!')
-    pinterest_account -> account_urls -> views_hello_world -> hello world! 출력하는 구조
-    http://127.0.0.1:8000/account/hello_world/ -> hello world! 출력
-    '''
+# hello_worl 관련 설명은 README파일에서 확인하기
 
 class AccountCreateView(CreateView): #CRUD 중 C create
     model = User
