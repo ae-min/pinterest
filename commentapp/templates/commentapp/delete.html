@@ -4,7 +4,7 @@
 
   <div style="text-align:center; max-width:500px; margin:4rem auto">
     <div classs="mb-4">
-      <h4>Delete Comment : {{ target_comment.content}} </h4>
+      <h4>댓글 삭제 : {{ target_comment.content}} </h4>
     </div>
 
     <form action="{% url 'commentapp:delete' pk=target_comment.pk %}" method="POST">

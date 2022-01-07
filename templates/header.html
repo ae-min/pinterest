@@ -1,17 +1,17 @@
  <div class="pinterest_header">
   <div>
-    <h1 class="pinterest_logo">Pinterest</h1>
+    <h1 class="pinterest_logo">Freespace</h1>
   </div>
   <div>
       <div class="pinterest_header_navbar">
            <a href="{% url 'articleapp:list' %}" class="pinterest_header_nav">
-              <span>Articles</span>
+              <span>게시글</span>
            </a>
            <a href="{% url 'projectapp:list' %}" class="pinterest_header_nav">
-               <span>Projects</span>
+               <span>프로젝트</span>
            </a>
            <a href="{% url 'subscribeapp:list' %}" class="pinterest_header_nav">
-               <span>Subscription</span>
+               <span>구독</span>
            </a>
           {% if not user.is_authenticated %}  <!-- 유저가 로그인이 되어있지 않다면, 로그인 페이지를 보여주기 -->
           <a href="{% url 'accountapp:login' %}?next={{ request.path}}" class="pinterest_header_nav">
@@ -25,17 +25,17 @@
                     ** next->LOGOUT_REDIRECT_URL->default
                     만약 next인자가 없을 경우, 디폴트 값으로 가게 되므로, LOGOUT_REDIRECT_URL 값 또한 지정해줌
                     ex) 메인페이지에서 찾아간게 아니고, 도메인에 로그인 치면 디폴트 페이지 뜸-->
-              <span>Login</span>
+              <span>로그인</span>
           </a>
           <a href="{% url 'accountapp:create' %}" class="pinterest_header_nav">
-              <span>SignUp</span>
+              <span>회원가입</span>
           </a>
           {% else %}  <!-- 유저가 로그인이 되어있다면, 로그아웃 페이지를 보여주기 -->
           <a href="{% url 'accountapp:detail' pk=user.pk %}" class="pinterest_header_nav">
-              <span>MyPage</span>
+              <span>마이페이지</span>
            </a>
            <a href="{% url 'accountapp:logout' %}?next={{ request.path}}" class="pinterest_header_nav">
-              <span>Logout</span>
+              <span>로그아웃</span>
            </a>
           {% endif %}
       </div>

@@ -3,7 +3,7 @@
 border-radius:1rem; border-color:#bbb;">
     <div>
         <strong>
-            {{ comment.writer.profile.nickname }}
+           {{ comment.writer.profile.nickname }}
         </strong>
         &nbsp&nbsp&nbsp
         {{ comment.created_at }}
@@ -15,7 +15,7 @@ border-radius:1rem; border-color:#bbb;">
     <div style="text-align:right;">
         <a href="{% url 'commentapp:delete' pk=comment.pk %}"\\
             class="btn btn-danger rounded-pill">
-            Delete
+            삭제
         </a>
     </div>
     {% endif %}

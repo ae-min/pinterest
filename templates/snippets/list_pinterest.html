@@ -37,7 +37,9 @@
    <script src="{% static 'js/magicgrid.js' %}"></script>
    {% else %}   <!-- article이 없다면-->
    <div class="text-center">
-      <h1> No Article </h1>
+      <h5> 게시글이 없어요. </br>
+          게시글을 올려보세요!</h5>
+       </br>
    </div>
    {% endif %}
 
@@ -45,6 +47,6 @@
 
     <div style="text-align:center">
         <a href="{% url 'articleapp:create' %}" class = "btn btn-dark rounded-pill mt-3 mb-3 px-3">
-            Create Article
+            새로운 글 생성
         </a>
     </div>
