@@ -214,3 +214,14 @@ https://github.com/google/material-design-icons
     return HttpResponse('hello world!')
     pinterest_account -> account_urls -> views_hello_world -> hello world! 출력하는 구조
     http://127.0.0.1:8000/account/hello_world/ -> hello world! 출력
+
+---
+# google font
+
+https://fonts.google.com/?subset=korean
+
+select this style 선택
+
+link : head.html
+
+css : static/base.css
