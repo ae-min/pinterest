@@ -272,3 +272,22 @@ https://www.vultr.com/
 * root@vultr:~# docker => 도커 설치여부 확인 가능
 
 * docker container ls => 도커 컨테이너가 뭐가 돌고 있는지 확인 가능
+
+# dockerhub 'potainer'
+
+https://hub.docker.com/r/portainer/portainer-ce
+
+이미지를 이용해 컨테이너를 구성하는 방식인데, 현재는 이미지가 없으므로, 도커허브에서 이미지를 받아서 실제 컨테이너를 만드는데 사용할 것.
+
+---
+@ portainer.io
+
+https://hub.docker.com/r/portainer/portainer-ce
+
+도커시스템을 GUI형태로 볼 수 있도록 바꿔주는 소프트웨어
+
+cmd로 관리 시, 도커에 대한 이해가 어려우므로 GUI화 해서 이해가 쉽게 하기 위해 portainer 설치
+
+도커허브에서 portainer라는 컨테이너를 공식이미지를 찾은다음, 
+
+그 이미지를 가져와서 우리의 도커시스템. 우리의 가상서버에 컨테이너를 실제로 만들 작업을 할 것임.
