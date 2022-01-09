@@ -291,3 +291,27 @@ cmd로 관리 시, 도커에 대한 이해가 어려우므로 GUI화 해서 이�
 도커허브에서 portainer라는 컨테이너를 공식이미지를 찾은다음, 
 
 그 이미지를 가져와서 우리의 도커시스템. 우리의 가상서버에 컨테이너를 실제로 만들 작업을 할 것임.
+
+# 설치된 portainer 확인 방법
+
+1. cmd창에 docker volume create portainer_data
+
+2. docker run -d -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce
+---
+@ 1,2번 입력 후 나오는 부분
+
+Unable to find image 'portainer/portainer-ce:latest' locally
+latest: Pulling from portainer/portainer-ce
+
+=> 가상서버 내에 있는 도커시스템에서 이미지를 찾지 못했기 때문에 도커허브에서 이미지를 가져왔다
+
+---
+3. docker container ls => 현재 구동중인 컨테이너 확인
+
+---
+
+http:// 본인의 가상서버주소:9000 접속
+
+=> 내가 설치한 portainer 컨테이너가 정상적으로 구동됨 확인 가능
+=> 빌린 가상서버 내부에 있는 도커시스템에서 어떤 일이 벌어지는지를 GUI환경 하에서 모니터링할 수 있는 구축이 완료됨
+
