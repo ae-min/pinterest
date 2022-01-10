@@ -355,3 +355,11 @@ nginx 컨테이너는 테스트용이므로 기본 http프로토콜 포트인 80
 4. expose : 장고 컨테이너가 어떤 포트를 사용할것인지
 5. cmd : 커맨드를 입력하는 곳 
 
+#course 52 'Dockerfile 생성'
+작성방법은 Dockerfile 주석 참고
+
+@ potainer 생성정보
+
+이미지 : django_test_image:1
+
+컨테이너 : django_container
