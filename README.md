@@ -315,3 +315,11 @@ http:// 본인의 가상서버주소:9000 접속
 => 내가 설치한 portainer 컨테이너가 정상적으로 구동됨 확인 가능
 => 빌린 가상서버 내부에 있는 도커시스템에서 어떤 일이 벌어지는지를 GUI환경 하에서 모니터링할 수 있는 구축이 완료됨
 
+# course 49 'nginx 컨테이너 추가'
+@ container - add container - name 입력 - image : 도커허브에서 가져올 이미지 (nginx) - 포트 선택 - deploy the container
+
+@ Manual network port publishing의 +publish a new network port : 
+
+내가 발린 가상서버 host 포트와 potainer 포트 지정하여 서로 연결
+
+nginx 컨테이너는 테스트용이므로 기본 http프로토콜 포트인 80번으로 지정
