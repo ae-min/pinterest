@@ -405,3 +405,108 @@ git add requirements.txt
 
 (구니콘은 nginx와 장고 컨테이너를 연결시켜주는 인터페이스이므로 nginx를 연결해줘야함
 nginx-gunicorn-django)
+
+# course 54 'Docker Network'
+
+유저가 요청을 줄 때는 vps의 ip와 port번호를 참고해 서버에 접속하면되는데,
+
+nginx 컨테이너에서 장고 컨테이너로 요청을 보낼 때는, ip adress로 보내야할지 도메인으로 보내야할지 모름
+
+이러한 어디로 보낼지 모르는 문제를 해결해주는 도구가 'docker network'
+
+** 네트워크 : 컨테이너를 여러개 만드는데, 그 컨테이너들을 하나의 네트워크로 묶어주는 것
+
+---
+네트워크 안에 컨테이너마다 이름이 정해져있는데 (ex. nginx / django_container_gunicorn)
+
+이 컨테이너 이름을 기반으로 서로 요청을 주고 받을 수 있게 할 수 있음
+ 
+docker network 안에서는 컨테이너 이름 자체가 도메인처럼 쓰임. 
+
+www.naver.com 쓰는 것처럼 컨테이너 이름이 도메인처럼 쓰임.
+
+=> nginx컨테이너에서 http://django_container_gunicorn:8000이라는 주소를 넣어서 요청을 보내게되면,
+실제로 장고컨테이너로 요청을 보낼 수 있음
+
+---
+@ 1. portainer에서 새로운 'nginx-django' 네트워크 생성
+
+이름만 기재하고 create the network
+
+---
+@ 2. portainer에서 새로운 'django_container_gunicorn' 컨테이너 생성
+
+장고컨테이너들의 경우 원래는 8000번 포트 등으로 해서 외부와 연결시켜줬는데,
+
+유저에서 보내는 요청을 앞단인 nginx에서 먼저 받은 다음, 
+
+장고로 넘겨주기 때문에, 장고에서 외부 포트를 연결시켜줄 필요가 없으므로 포트 지정안해도됨
+
+** 네트워크 nginx-django지정
+
+---
+@ 3. 새로운 nginx 컨테이너 생성을 위한 'nginx.conf' 파일 생성
+
+nginx를 만들기 전에 nginx 설정 파일을 만들어야함 (파이참 nginx.conf 파일 생성)
+
+https://gunicorn.org/#deployment
+
+nginx.conf 파일에 기본 틀을 복붙한 뒤 수정
+
+    server {
+    listen 80;
+    server_name example.org;
+    access_log  /var/log/nginx/example.log;
+
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+    }
+
+proxy_pass http://django_container_gunicorn:8000;
+
+=> 앞서 네트워크 설명에서 말했듯이 같은 네트워크 안에서는 컨테이너 이름으로 도메인 접속 가능
+
+---
+@ 4. '파일질라'를 이용해 nginx 설정파일을 가상서버에 올리기
+
+https://filezilla-project.org/ (클라이언트설치)
+
+vps에서 부여받은 호스트주소-사용자명-pw 입력 / 포트번호는 22로하여 빠른연결
+
+가상서버에 /home/django_course 만들고 거기에 nginx.conf 파일 옮김
+
+---
+@ 5. portainer에서 새로운 'nginx' 컨테이너 생성
+
+컨테이너이름 nginx 
+
+이미지 nginx:latest
+
+네트워크 nginx-django
+
+볼륨 bind로 하고, 컨테이너에 /etc/nginx/nginx.conf 
+
+호스트에 /home/django_course/nginx.conf 입력한 뒤 생성
+
+# git에 잘못올린 파일 삭제 (내 pc에는 존재, git에서는 삭제)
+
+git rm --cached 파일명
+
+git commit -m "Fixed untracked files"
+
+git push -u origin master
+
+# 특정 파일만 git에 올리기
+
+git add 파일명
+
+ex) git add requirements.txt
+
+
+
+
+
+
