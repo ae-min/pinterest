@@ -364,3 +364,44 @@ nginx 컨테이너는 테스트용이므로 기본 http프로토콜 포트인 80
 이미지 : django_test_image:1
 
 컨테이너 : django_container
+
+# course 53 'gunicorn'
+
+python manage.py runserver로 배포하는 것은 하면 안되는 방법임.
+
+장고는 웹프레임워크를 만드는 것이지, 웹서버를 만드는 것이 아니기 때문에 
+
+보안이슈 등에 대해 정확한 테스트를 거치지도 않았으므로 배포에 사용하면 안됨
+
+=> 이러한 문제 해결을 위해 장고컨테이너안에 gunicorn이라는 라이브러리를 설치해야함. 설치하면 원래 쓰던 runserver이라는 명령어를 gunicorn 자체의 커맨드로 교체됨
+
+---
+@ gunicorn
+
+요청을 먼저 앞단에서 받아주는 nginx라는 웹서버와 내가 만든 장고컨테이너를 연결시켜주는 인터페이스
+
+장고컨테이너안에 구니콘을 설치하고, 설치한 상태로 다시 도커이미지를 새로 만들고, 그 이미지를 컨테이너로 만들면 됨
+
+---
+@ gunicorn 설치
+
+pip install gunicorn 
+
+@ gunicorn이 포함되도록 설치된 라이브러리 파일 재작성
+
+pip freeze > requirements.txt
+
+---
+@ 특정 파일만 커밋에 올리기
+
+git add requirements.txt
+
+---
+@ gunicorn container (호스트 8080 - 컨테이너 8000)
+
+구니콘 컨테이너의 경우 css와 같은 정적파일을 불러오지 못함. 
+
+이걸 nginx라는 서버를 앞단에 연결시킴으로써 해결 가능
+
+(구니콘은 nginx와 장고 컨테이너를 연결시켜주는 인터페이스이므로 nginx를 연결해줘야함
+nginx-gunicorn-django)
