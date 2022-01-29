@@ -504,7 +504,59 @@ git push -u origin master
 git add 파일명
 
 ex) git add requirements.txt
+ 
+# course 57 Docker Volume
 
+nginx 내부의 static 파일들과 django의 static 파일들을 동기화 시키기 위해서 docker volume을 사용 
+
+Docker Volume : 다른 컨테이너 내에 있는 데이터를 공유할 수 있는 기능
+
+1. bind volume
+- host server(vps서버)와 nginx 컨테이너간의 각 파일들을 연동, 동기화 시킴
+
+2. named volume
+- 도커 안에서 이름이 있는 새로운 볼륨을 만들고, 이 새로운 볼륨을 django컨테이너나 nginx같은 컨테이너들과 붙여서 동기화 가능
+- 네임드볼륨은 도커가 알아서 관리
+- 만약 네임드볼륨과 연결된 컨테이너들이 사라지더라도, 네임드 볼륨은 사라지지 않고 데이터를 유지시킴
+
+# course 58 Docker Volume create
+
+1. volume 생성 : static, media 볼륨 생성
+
+2. container 생성 : django_container_gunicorn 
+
+- (network : nginx, staticfiles폴더와 static볼륨 연결, midea와 media볼륨 연결), nginx생성(포트 80-80, 네트워크 nginx, 볼륨 : (컨테이너)/data/static과 static볼륨연결, /data/media와 media볼륨 연결), bind: /etc/nginx/nginx.conf - /home/django_course/nginx.conf)
+
+---
+3. nginx.conf : 앞단인 nginx컨테이너에서 static파일을  먼저 처리하도록 해당 코드 작성
+    
+
+    include mime.types;
+
+    location /static/{
+        alias /data/static/;
+    }
+
+     location /media/{
+        alias /data/media/;
+    }
+
+# course 59,60 mariaDB 컨테이너를 이용한 DB분리 (개발/배포 분리)
+
+현재 내 컴퓨터인 local의 DB는 : sqllite  / docker : mariaDB
+
+mariaDB 컨테이너 생성 : https://hub.docker.com/_/mariadb 사이트에서 공식이미지 다운
+
+# course 61 mariaDB 컨테이너 설정 및 django 연동
+
+1. volume 생성 : volume 이름 'database'
+2. container 생성 : 
+
+이름 : mariadb, 이미지 :  mariadb, 네트워크 : nginx-django, 볼륨 : (컨테이너)/var/lib/mysql-(볼륨)database, 
+env(환경변수) : name 4개 : MYSQL_ROOT_PASSWORD, MYSQL_DATABASE, MYSQL_USER, MYSQL_PASSWORD, value에 deploy.py의 database란에 적은 값 입력
+
+
+3. Dockerfile 수정 후 -> 이미지 새로 빌드 -> 새로운 이미지로 다시 django_container_gunicorn 컨테이너 생성, 네트워크 nginx-django 설정
 
 
 
