@@ -577,6 +577,19 @@ totla stack settings는 YML파일에 작성
 - nginx, django container, mariaDB를 각각의 서비스로 관리.
 - 서비스가 하는일 : 컨테이너 셧다운 시 자동으로 재부팅 시켜줌. 서비스내에서는 필요에따라 컨테이너를 복제할수도, 줄일 수도 있음.
 
+# course 63 "Docker Swarm"
 
+현재 nginx container, django container, mariadb가 도커 시스템 위에서 돌아가고 있는데, 이 도커시스템을 포함하고 있는 가상서버 하나를 '노드'라고 부름
+
+@Docker Swarm :
+여러개의 노드가 있을 때, 여러 서버(노드) 를 하나의 서버인것처럼 이용할 수 있게 해주는 것이 docker swarm
+
+노드가 한개가 아니라 여러개가 되었을 경우, 여러개의 노드를 이용해서 클러스터링 가능
+
+각각의 컨테이너들을 서비스로 관리 중이라면, 노드 안에서 컨테이너당 서비스가 돌아가고 잇으며, 새로운 노드를 추가해서 서비스 복제 하는 방식으로 쉽게 관리 가능
+
+Docker Swarm은 Kubernetes, Apache Mesos 같은 컨테이너 오케스트레이션 툴에 비해서 쉬움. 
+
+핵심적인 부분만 쉽게 만들 수 있도록 구성이 되어있음
 
 
