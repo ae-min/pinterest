@@ -558,6 +558,24 @@ env(환경변수) : name 4개 : MYSQL_ROOT_PASSWORD, MYSQL_DATABASE, MYSQL_USER,
 
 3. Dockerfile 수정 후 -> 이미지 새로 빌드 -> 새로운 이미지로 다시 django_container_gunicorn 컨테이너 생성, 네트워크 nginx-django 설정
 
+# course 62 "Docker Stack"
+
+단순히 컨테이너만을 가지고 배포 시 발생 가능한 문제 :
+1. 배포시마다, 컨테이너마다의 설정을 반복해야하는 문제
+- 사소한 변화가 있을 때에도 전체적인 설정을 다시 해야하는 비효율성
+- Docker Stack으로 해결 가능
+
+@ Docker Stack :
+
+컨테이너별로 들어가는 모든 세팅들을 하나의 total 파일로 만들어서 관리,
+
+totla stack settings는 YML파일에 작성
+
+
+2. 모종의 문제로 컨테이너가 종료될 때의 문제
+- 사람이 계속 지켜보면서 종료된 컨테이너를 재실행 시키기 어려움
+- nginx, django container, mariaDB를 각각의 서비스로 관리.
+- 서비스가 하는일 : 컨테이너 셧다운 시 자동으로 재부팅 시켜줌. 서비스내에서는 필요에따라 컨테이너를 복제할수도, 줄일 수도 있음.
 
 
 
