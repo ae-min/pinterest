@@ -592,4 +592,25 @@ Docker Swarm은 Kubernetes, Apache Mesos 같은 컨테이너 오케스트레이�
 
 핵심적인 부분만 쉽게 만들 수 있도록 구성이 되어있음
 
+# course 보강 12 'Django Message'
+https://docs.djangoproject.com/en/3.1/ref/contrib/messages/
 
+사용자의 입력을 처리 후, 사용자에게 일회성 알림 메시지를 제공하는 기능
+
+@메시지레벨 : messages.ERROR / messages.SUCCESS 등의 형태로 사용 가능
+
+@메시지레벨에 따른 메시지태그 변경 희망 시, 해당 코드를 이용해 재정의
+
+    from django.contrib.messages import constants as messages
+    MESSAGE_TAGS = {
+        messages.INFO: '',
+        50: 'critical',
+    }
+
+    // 부트스트랩의 danger 버튼 이용을 위해, 메시지태그를 ERROR에서 danger로 재정의함
+    // pinterest/setting/base.py 내부에 작성된 코드
+        MESSAGE_TAGS = {
+            messages.ERROR: 'danger',
+        }
+* 부트스트랩 버튼
+https://getbootstrap.com/docs/5.0/components/buttons/#button-tags
