@@ -16,3 +16,6 @@ class Article(models.Model):
     content = models.TextField(null=True)
 
     created_at = models.DateField(auto_now_add=True, null=True) #auto_now_add=True : 생성된 시간 자동 저장
+
+    like = models.IntegerField(default=0) #좋아요기능
+
